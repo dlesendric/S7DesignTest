@@ -14,5 +14,15 @@
 class AdminSection extends MY_Controller{
     public function __construct() {
         parent::__construct();
+        $this->restrict();
+    }
+    
+    protected function restrict(){
+        if(!isset($_SESSION['User'])){
+            redirect("Home/login");
+        }
+        if($_SESSION['User']['Role']!=2){
+            redirect("Dashboard");
+        }
     }
 }

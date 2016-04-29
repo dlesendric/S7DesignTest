@@ -17,22 +17,39 @@ class Admin extends AdminSection{
     }
     
     public function index(){
-        
+        $data = array(
+            'scripts' => array(
+                base_url().'public/js/datatables.min.js'
+            ),
+            'styles' => array(
+                base_url().'public/css/datatables.min.css',
+            )
+        );
+        $this->load_view('admin/admin',$data);
     }
     
-    public function events(){
-        
+    public function newEvent(){
+        $data = array(
+            'scripts' => array(
+                base_url().'public/js/moment.min.js',
+                base_url().'public/js/bootstrap-datetimepicker.min.js'
+            ),
+            'styles' => array(
+                base_url().'public/css/bootstrap-datetimepicker.min.css',
+            )
+        );
+        $this->load_view('admin/new',$data);
     }
     
     public function users(){
         
     }
     
-    public function editEvents(){
+    public function editEvent($IdEvent){
         
     }
     
-    public function editUsers(){
+    public function editUser($IdUser){
         
     }
     

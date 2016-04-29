@@ -23,7 +23,7 @@ class Api extends MY_Controller{
     public function authorize($admin = false){
         $user = $this->handleAuthorizeRequest();
         if($admin){
-            if($user['Role']!=2){
+            if($user->Role!=2){
                 return $this->generate_status(401);
             }
         }
@@ -128,6 +128,23 @@ class Api extends MY_Controller{
         }
         return $randomString;
     }
+    
+    public function newEvent(){
+        $this->authorize(true);
+        $data = $this->input->post();
+        $this->load->model("EventsModel");
+        $this->EventsModel->newEvent($data);
+        $this->generate_status(201);
+    }
+    
+    public function getAllEvents(){
+        $this->authorize();
+        $this->load->model("EventsModel");
+        $data = $this->EventsModel->getAllEvents();
+        return $this->generate_response($data);
+    }
+    
+    
     
     
     

@@ -15,7 +15,16 @@ class Dashboard extends UserSection{
     }
     
     public function index(){
-        $this->load_view('user/dashboard');
+        $data = array(
+            'scripts' => array(
+                base_url().'public/js/datatables.min.js'
+            ),
+            'styles' => array(
+                base_url().'public/css/datatables.min.css',
+            )
+        );
+       
+        $this->load_view('user/dashboard',$data);
     }
     
     

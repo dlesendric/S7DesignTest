@@ -17,7 +17,7 @@ class UserModel extends CI_Model{
     public function getUserByKey($key){
         $query = "SELECT * FROM users WHERE UserKey = ? LIMIT 1";
         $result = $this->db->query($query,array($key));
-        return $result->result_array();
+        return $result->row();
     }
     
     public function login($username,$password){

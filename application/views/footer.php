@@ -1,6 +1,18 @@
 </div><!--container-->
 
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<?php echo base_url();?>public/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $(".logout").click(function (e){
+            e.preventDefault();
+            $.ajax({
+                url:"<?php echo base_url(); ?>Api/logout",
+                success: function (data, textStatus, jqXHR) {
+                                    window.location = "<?php echo base_url(); ?>";
+                                }
+            });
+        });
+    });
+    </script>
   </body>
 </html>

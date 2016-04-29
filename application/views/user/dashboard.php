@@ -16,13 +16,14 @@
     </div>
     <div class="col-lg-9">
         <!--content-->
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover" id="table">
             <thead>
                 <tr>
-                    <td>Event Heading</td>
-                    <td>Event Description</td>
-                    <td>Event Date and time</td>
-                    <td>Event Place</td>
+                    <td>Posted</td>
+                    <td>Heading</td>
+                    <td>Description</td>
+                    <td>Date and time</td>
+                    <td>Place</td>
                     <td>Details</td>
                 </tr>
             </thead>
@@ -45,6 +46,26 @@ $(document).ready(function(){
     $(".editProfile").click(function(e){
         e.preventDefault();
         alert("Not done, should popup modal!");
+    });
+    
+    $("#table").DataTable({
+        ajax:{
+            "url":"<?php echo base_url();?>Api/getAllEvents",
+            "dataSrc":""
+        },
+        "columns":[
+            {"data":"Posted"},
+            {"data":"Heading"},
+            {"data":"Description"},
+            {"data":"Event_time"},
+            {"data":"Event_place"},
+            { "orderable":false}
+        ],
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<span class='glyphicon glyphicon-edit'></span>"
+        } ]
     });
 });
 </script>

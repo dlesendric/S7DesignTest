@@ -8,7 +8,7 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="<?php echo base_url();?>public/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="<?php echo base_url();?>public/css/bootstrap.min.css" rel="stylesheet">-->
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,8 +17,37 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="<?php echo base_url();?>public/js/jquery/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!--<script src="<?php echo base_url();?>public/js/bootstrap.min.js"></script>-->
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <?php
+        if(isset($styles)):
+            foreach ($styles as $style):
+    ?>
+    <link rel="stylesheet" href="<?php echo $style;?>" type="text/css"/>
+    <?php 
+            endforeach;
+        endif;
+    ?>
+    <?php
+        if(isset($scripts)):
+            foreach ($scripts as $script):
+    ?>
+    <script src="<?php echo $script;?>" type="text/javascript"></script>
+    <?php 
+            endforeach;
+        endif;
+    ?>
+    
   </head>
   <body>
       <div class="container">
-          <div id="errorDiv" class="alert alert-danger hidden"></div>
+        <div id="errorDiv" class="alert alert-danger hidden"></div>
