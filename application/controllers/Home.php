@@ -26,7 +26,7 @@ class Home extends MY_Controller{
     
     
     public function register(){
-        
+        $this->load_view('register');
     }
     
     public function forgotPass(){

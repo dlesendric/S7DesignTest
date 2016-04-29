@@ -81,14 +81,52 @@ class Api extends MY_Controller{
         $this->load->model("UserModel");
         $user = $this->UserModel->login($username,$password);
         if(!empty($user)){
-            $_SESSION['access_token'] = $user["UserKey"];
-            $_SESSION['User']['IdUser'] = $user['IdUser'];
-            $_SESSION['User']['Username'] = $user['Username'];
-            $_SESSION['User']['Role'] = $user['Role'];
-            $_SESSION['User']['Params'] = explode(',',$user['Params']);
+            $_SESSION['access_token'] = $user->UserKey;
+            $_SESSION['User']['IdUser'] = $user->IdUser;
+            $_SESSION['User']['Username'] = $user->Username;
+            $_SESSION['User']['Role'] = $user->Role;
+            $_SESSION['User']['Params'] = json_decode(',',$user->Params);
             return $this->generate_status(200); 
         }
         return $this->generate_status(401);
+    }
+    
+    public function checkUsername(){
+        $username = trim($this->input->post('Username'));
+        $this->load->model("UserModel");
+        $exist = $this->UserModel->checkUsername($username);
+        if($exist){
+            return $this->generate_status(400);
+        }
+        else{
+            return $this->generate_status(200);
+        }
+    }
+    
+    public function register(){
+        $Username = $this->input->post("Username");
+        $Password = $this->input->post("Password");
+        $other['FirstName'] = $this->input->post("FirstName");
+        $other['LastName'] = $this->input->post("LastName");
+        $other['Email'] = $this->input->post("Email");
+        $UserKey = $this->generateRandomString();
+        $Params = json_encode($other);
+        $this->load->Model("UserModel");
+        $id = $this->UserModel->register($Username,$Password,$UserKey,$Params);
+        if(is_int($id)){
+            return $this->generate_status(201);
+        }
+        return $this->generate_status(400);
+    }
+    
+    protected function generateRandomString($length = 16) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
     
     

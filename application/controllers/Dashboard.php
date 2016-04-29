@@ -15,7 +15,8 @@ class Dashboard extends UserSection{
     }
     
     public function index(){
-        
+        $this->load_view('user/dashboard');
     }
+    
     
 }

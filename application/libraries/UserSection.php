@@ -14,5 +14,12 @@
 class UserSection extends MY_Controller{
     public function __construct() {
         parent::__construct();
+        $this->restrict();
+    }
+    
+    protected function restrict(){
+        if(!isset($_SESSION['User'])){
+            redirect("Home/login");
+        }
     }
 }

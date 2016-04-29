@@ -28,7 +28,7 @@
                 type:"POST",
                 data:data,
                 success: function (data, textStatus, jqXHR) {
-                        window.location.href("<?php echo base_url();?>Dashboard");
+                        window.location = "<?php echo base_url();?>Dashboard";
                     },
                 error: function (jqXHR, textStatus, errorThrown) {
                         $(".alert").removeClass('hidden');

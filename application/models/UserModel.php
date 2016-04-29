@@ -23,6 +23,22 @@ class UserModel extends CI_Model{
     public function login($username,$password){
         $query = "SELECT IdUser,Username,Role,UserKey,Params FROM users WHERE Username = ? AND Password = ? LIMIT 1";
         $result = $this->db->query($query,array($username,$password));
-        return $result->result_array();
+        return $result->row();
+    }
+    public function checkUsername($username){
+        $query = "SELECT * FROM users WHERE username = ? LIMIT 1";
+        $result = $this->db->query($query,array($username));
+        if(empty($result->result_array())){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
+    public function register($Username,$Password,$UserKey,$Params){
+        $query = "INSERT INTO users (Username,Password,UserKey,Params) VALUES (?,MD5(?),?,?)";
+        $this->db->query($query,array($Username,$Password,$UserKey,$Params));
+        return $this->db->insert_id();
     }
 }
