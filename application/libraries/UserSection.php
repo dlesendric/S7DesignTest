@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of MY_Backend
+ * Description of MY_Frontend
  *
  * @author Darko
  */
-class MY_Backend extends MY_Controller{
+class UserSection extends MY_Controller{
     public function __construct() {
         parent::__construct();
     }

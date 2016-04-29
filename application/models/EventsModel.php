@@ -5,17 +5,12 @@
  */
 
 /**
- * Description of Dashboard
+ * Description of EventsModel
  *
  * @author Darko
  */
-class Dashboard extends UserSection{
+class EventsModel extends CI_Model{
     public function __construct() {
         parent::__construct();
     }
-    
-    public function index(){
-        
-    }
-    
 }

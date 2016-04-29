@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of MY_Frontend
+ * Description of MY_Backend
  *
  * @author Darko
  */
-class MY_Frontend extends MY_Controller{
+class AdminSection extends MY_Controller{
     public function __construct() {
         parent::__construct();
     }

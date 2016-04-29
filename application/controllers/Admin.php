@@ -7,29 +7,34 @@
  */
 
 /**
- * Description of Home
+ * Description of Dashboard
  *
  * @author Darko
  */
-class Home extends MY_Controller{
+class Admin extends AdminSection{
     public function __construct() {
         parent::__construct();
     }
     
     public function index(){
-        $this->load_view('home');
-    }
-    
-    public function login(){
-        $this->load_view('login');
-    }
-    
-    
-    public function register(){
         
     }
     
-    public function forgotPass(){
+    public function events(){
         
     }
+    
+    public function users(){
+        
+    }
+    
+    public function editEvents(){
+        
+    }
+    
+    public function editUsers(){
+        
+    }
+    
+    
 }
