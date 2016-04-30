@@ -137,13 +137,29 @@ class Api extends MY_Controller{
         $this->generate_status(201);
     }
     
-    public function getAllEvents(){
-        $this->authorize();
+    public function getAllEvents($past=''){
+        $user = $this->authorize();
         $this->load->model("EventsModel");
-        $data = $this->EventsModel->getAllEvents();
+        $data = $this->EventsModel->getAllEvents($user->IdUser,$past);
         return $this->generate_response($data);
     }
     
+    
+    public function signupEvent(){
+        $user = $this->authorize();
+        $id_event = $this->input->post('id');
+        $this->load->model("EventsModel");
+        $this->EventsModel->signup($user->IdUser,$id_event);
+        return $this->generate_status(201);
+    }
+    
+    public function unsignEvent(){
+        $user = $this->authorize();
+        $id_event = $this->input->post('id');
+        $this->load->model("EventsModel");
+        $this->EventsModel->unsign($user->IdUser,$id_event);
+        return $this->generate_status(200);
+    }
     
     
     

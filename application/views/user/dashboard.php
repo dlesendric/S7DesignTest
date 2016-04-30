@@ -3,6 +3,7 @@
     <div class="col-lg-3">
         <!--MENU-->
         <ul class="list-group">
+            <li class="list-group-item"><a href="<?php echo base_url();?>Dashboard/">Dashboard</a>
             <li class="list-group-item"><a href="#" class="logout">Logout</a></li>
             <li class="list-group-item"><a href="#" class="editProfile">Edit Profile</a></li>
             <?php
@@ -21,17 +22,19 @@
                 <tr>
                     <td>Posted</td>
                     <td>Heading</td>
-                    <td>Description</td>
+                    <td>Signed?</td>
                     <td>Date and time</td>
                     <td>Place</td>
                     <td>Details</td>
                 </tr>
             </thead>
         </table>
+        <button class="btn btn-info" id="btnPast">Show and past events?</button>
     </div>
 </div>
 
 <script type="text/javascript">
+    var table;
 $(document).ready(function(){
     $(".logout").click(function (e){
         e.preventDefault();
@@ -48,24 +51,81 @@ $(document).ready(function(){
         alert("Not done, should popup modal!");
     });
     
-    $("#table").DataTable({
+    table=$("#table").DataTable({
         ajax:{
-            "url":"<?php echo base_url();?>Api/getAllEvents",
+            "url":"<?php echo base_url();?>Api/getAllEvents/",
             "dataSrc":""
         },
         "columns":[
             {"data":"Posted"},
             {"data":"Heading"},
-            {"data":"Description"},
+            {"data":"signed"},
             {"data":"Event_time"},
             {"data":"Event_place"},
-            { "orderable":false}
+            { 
+                "className":'details-control',
+                "orderable":false,
+                "data":null,
+                "defaultContent":"<a href='javascript:void(0);' class='info'><span class='glyphicon glyphicon-info-sign'></span></a>"
+            }
         ],
-        "columnDefs": [ {
-            "targets": -1,
-            "data": null,
-            "defaultContent": "<span class='glyphicon glyphicon-edit'></span>"
-        } ]
+        
     });
+    $("#table tbody").on('click','td.details-control',function(){
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if(row.child.isShown()){
+            row.child.hide();
+            tr.removeClass('shown');
+        }else{
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+        }
+    });
+    
+    $("#btnPast").click(function(){
+        table.ajax.url("<?php echo base_url();?>Api/getAllEvents/past/").load();
+    });
+
 });
+function format ( d ) {
+    // `d` is the original data object for the row
+    var text;
+    if(d.signed=="no"){
+            text='<td><button class="btn btn-success" onclick="signup('+d.IdEvent+');">Sign up</button> </td>'            }else{
+            text='<td><button class="btn btn-danger" onclick="unsign('+d.IdEvent+');">Unsign</button> </td>'
+            }
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+        '<tr>'+
+            '<td>Description:</td>'+
+            '<td>'+d.Description+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Sign up for event:</td>'+
+            text;
+        +
+        '</tr>'+
+    '</table>';
+}
+
+function signup(id){
+    $.ajax({
+        url:"<?php echo base_url();?>Api/signupEvent/",
+        type:"POST",
+        data:{id:id,access_token:"<?php echo $_SESSION['access_token'];?>"},
+        success: function (data, textStatus, jqXHR) {
+                        table.ajax.reload();
+                    }
+    });
+}
+function unsign(id){
+    $.ajax({
+        url:"<?php echo base_url();?>Api/unsignEvent/",
+        type:"POST",
+        data:{id:id,access_token:"<?php echo $_SESSION['access_token'];?>"},
+        success: function (data, textStatus, jqXHR) {
+                        table.ajax.reload();
+                    }
+    });
+}
 </script>
