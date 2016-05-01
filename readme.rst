@@ -9,7 +9,7 @@ Configuration
 *******************
 
 Easy setup:
-1. Download this repo or clone
+1. Download this repo or clone <br/>
 2. Extract or move files into your server directory exp: C:/xampp/htdocs/[project_name] or /var/www/[project_name]
 3. Open .htaccess to change RewriteBase (Find line: RewriteBase /S7DesignTest/) and change it to your [project_name]
 4. Create new database on your MySQL server and import from /database/s7designtest.sql
