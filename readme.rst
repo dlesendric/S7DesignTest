@@ -3,6 +3,7 @@ What is this app?
 ###################
 
 This app is written in PHP and implements CodeIgniter framework.
+This is just some sample app for events.... 
 
 *******************
 Configuration
