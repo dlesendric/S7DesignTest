@@ -19,7 +19,7 @@ Easy setup:
 *  Go to /application/config.php and change following line to match your server conf: 
 ```$config['base_url'] = 'http://localhost/S7DesignTest/' -> where /S7DesignTest/ is [project_name] and localhost is your server name```
 *  Go to /application/database.php and change following line to match your db server conf: 
-``` 
+```php
 'hostname' => 'localhost',  -> your server
 'username' => 'root', -> username to your mysql server
 'password' => '', -> password to your mysql server
