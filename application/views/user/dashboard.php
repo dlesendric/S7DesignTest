@@ -1,19 +1,7 @@
 <div class="row">
     <h1 class="text-center">Welcome to your dashboard,check events in table</h1>
     <div class="col-lg-3">
-        <!--MENU-->
-        <ul class="list-group">
-            <li class="list-group-item"><a href="<?php echo base_url();?>Dashboard/">Dashboard</a>
-            <li class="list-group-item"><a href="#" class="logout">Logout</a></li>
-            <li class="list-group-item"><a href="#" class="editProfile">Edit Profile</a></li>
-            <?php
-            if ($_SESSION['User']['Role'] == 2):
-            ?>
-            <li class="list-group-item"><a href="<?php echo base_url(); ?>Admin">Admin Panel</a></li>
-            <?php
-            endif;
-            ?>
-        </ul>
+        <?php $this->load->view('user/menu');?>
     </div>
     <div class="col-lg-9">
         <!--content-->
@@ -29,23 +17,13 @@
                 </tr>
             </thead>
         </table>
-        <button class="btn btn-info" id="btnPast">Show and past events?</button>
+        <button class="btn btn-info" id="btnPast">Show past events?</button>
     </div>
 </div>
 
 <script type="text/javascript">
     var table;
 $(document).ready(function(){
-    $(".logout").click(function (e){
-        e.preventDefault();
-        $.ajax({
-            url:"<?php echo base_url();?>Api/logout",
-            success: function (data, textStatus, jqXHR) {
-                        window.location="<?php echo base_url();?>";
-                    }
-        });
-    });
-    
     $(".editProfile").click(function(e){
         e.preventDefault();
         alert("Not done, should popup modal!");
@@ -59,7 +37,7 @@ $(document).ready(function(){
         "columns":[
             {"data":"Posted"},
             {"data":"Heading"},
-            {"data":"signed"},
+            {"data":"Signed"},
             {"data":"Event_time"},
             {"data":"Event_place"},
             { 
@@ -91,7 +69,7 @@ $(document).ready(function(){
 function format ( d ) {
     // `d` is the original data object for the row
     var text;
-    if(d.signed=="no"){
+    if(d.Signed=="no"){
             text='<td><button class="btn btn-success" onclick="signup('+d.IdEvent+');">Sign up</button> </td>'            }else{
             text='<td><button class="btn btn-danger" onclick="unsign('+d.IdEvent+');">Unsign</button> </td>'
             }

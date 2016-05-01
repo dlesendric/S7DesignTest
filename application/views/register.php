@@ -32,6 +32,9 @@
             </div>
                 
         </form>
+        <div class="clearfix"></div>
+        <hr/>
+        <p class="pull-right">Already have account? <a href="<?php echo base_url();?>Home/login" class="btn btn-success">Log in</a></p>
     </div>
 </div>
 <script type="text/javascript">

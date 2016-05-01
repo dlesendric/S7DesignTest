@@ -21,7 +21,7 @@ class UserModel extends CI_Model{
     }
     
     public function login($username,$password){
-        $query = "SELECT IdUser,Username,Role,UserKey,Params FROM users WHERE Username = ? AND Password = ? LIMIT 1";
+        $query = "SELECT IdUser,Username,Role,UserKey,FirstName,LastName,Email FROM users WHERE Username = ? AND Password = ? LIMIT 1";
         $result = $this->db->query($query,array($username,$password));
         return $result->row();
     }
@@ -36,9 +36,26 @@ class UserModel extends CI_Model{
         }
     }
     
-    public function register($Username,$Password,$UserKey,$Params){
-        $query = "INSERT INTO users (Username,Password,UserKey,Params) VALUES (?,MD5(?),?,?)";
-        $this->db->query($query,array($Username,$Password,$UserKey,$Params));
+    public function register($Username,$Password,$UserKey,$FirstName,$LastName,$Email){
+        $query = "INSERT INTO users (Username,Password,UserKey,FirstName,LastName,Email) VALUES (?,MD5(?),?,?,?,?)";
+        $this->db->query($query,array($Username,$Password,$UserKey,$FirstName,$LastName,$Email));
         return $this->db->insert_id();
+    }
+    
+    public function getAllUsers(){
+        $query = "SELECT * from users";
+        $result = $this->db->query($query);
+        return $result->result_array();
+    }
+    
+    public function deleteUser($IdUser){
+        $this->db->where("IdUser",$IdUser);
+        $this->db->delete("users");
+    }
+    
+    public function editUser($IdUser,$data=array()){
+        $this->db->where("IdUser",$IdUser);
+        $this->db->set($data);
+        $this->db->update("users");
     }
 }

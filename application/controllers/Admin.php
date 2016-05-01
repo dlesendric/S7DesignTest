@@ -42,16 +42,35 @@ class Admin extends AdminSection{
     }
     
     public function users(){
-        
+        $data = array(
+            'scripts' => array(
+                base_url().'public/js/moment.min.js',
+                base_url().'public/js/bootstrap-datetimepicker.min.js',
+                base_url().'public/js/datatables.min.js'
+            ),
+            'styles' => array(
+                base_url().'public/css/bootstrap-datetimepicker.min.css',
+                base_url().'public/css/datatables.min.css'
+            )
+        );
+        $this->load_view('admin/users',$data);
     }
     
     public function editEvent($IdEvent){
-        
+        $data = array(
+            'scripts' => array(
+                base_url().'public/js/moment.min.js',
+                base_url().'public/js/bootstrap-datetimepicker.min.js'
+            ),
+            'styles' => array(
+                base_url().'public/css/bootstrap-datetimepicker.min.css',
+            ),
+            'IdEvent'=>intval($IdEvent)
+        );
+        $this->load_view('admin/edit',$data);
     }
     
-    public function editUser($IdUser){
-        
-    }
+
     
     
 }

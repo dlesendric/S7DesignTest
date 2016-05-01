@@ -27,5 +27,9 @@ class Dashboard extends UserSection{
         $this->load_view('user/dashboard',$data);
     }
     
+    public function editProfile(){
+        $this->load_view('user/editprofile');
+    }
+    
     
 }

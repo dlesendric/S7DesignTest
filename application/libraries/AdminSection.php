@@ -21,7 +21,7 @@ class AdminSection extends MY_Controller{
         if(!isset($_SESSION['User'])){
             redirect("Home/login");
         }
-        if($_SESSION['User']['Role']!=2){
+        if($_SESSION['User']['Role']!="Admin"){
             redirect("Dashboard");
         }
     }
