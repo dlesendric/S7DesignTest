@@ -25,3 +25,8 @@ Easy setup:
 
 * 7. Try to login with username: admin and password: admin1234, should everything work.
 
+===============
+SYSTEM REQUIREMENTS
+===============
+* PHP 5.4 or newer
+* MySQL server (tested on 4.3.11)

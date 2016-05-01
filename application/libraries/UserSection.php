@@ -1,14 +1,10 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of MY_Frontend
- *
+ * Description of UserSection
+ * This class is for restriction 
+ * It will prevent unloged users 
  * @author Darko
  */
 class UserSection extends MY_Controller{
@@ -16,7 +12,9 @@ class UserSection extends MY_Controller{
         parent::__construct();
         $this->restrict();
     }
-    
+    /**
+     * restriction by session
+     */
     protected function restrict(){
         if(!isset($_SESSION['User'])){
             redirect("Home/login");

@@ -1,21 +1,18 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of Api
- *
+ * Api class is for all GET or POST-s operations 
  * @author Darko
  */
 class Api extends MY_Controller{
     public function __construct() {
         parent::__construct();
     }
-    
+    /**
+     * default loading page
+     */
     public function index(){
         if(isset($_POST['Request'])){
             $this->login();
@@ -37,7 +34,11 @@ class Api extends MY_Controller{
         
 
     }
-    
+    /**
+     * Authroize users 
+     * @param type $admin - boolean
+     * @return type Object
+     */
     public function authorize($admin = false){
         $user = $this->handleAuthorizeRequest();
         if($admin){
@@ -49,12 +50,18 @@ class Api extends MY_Controller{
         
     }
     
-    
+    /**
+     * Renders JSON 
+     * @param type $content - should be object or array
+     */
     protected function generate_response($content){
         header("content-type:application/json");
         echo json_encode($content);
     }
-    
+    /**
+     * REST 
+     * @param type $code - integer 
+     */
     protected function generate_status($code){
         $status = array(
             200 => "HTTP/1.0 200 OK",
@@ -66,7 +73,10 @@ class Api extends MY_Controller{
         );
         header($status[$code]);
     }
-    
+    /**
+     * Check if user have access_token, access_token should be always passed via POST, GET or in this App i used $_SESSION to test 
+     * @return type Object - User data
+     */
     protected function handleAuthorizeRequest(){
         $token = '';
         if(isset($_SESSION['access_token'])){
@@ -86,13 +96,19 @@ class Api extends MY_Controller{
         return $user;
         
     }
-    
+    /**
+     * logout user
+     * @return type HTTP response
+     */
     public function logout(){
         unset($_SESSION['access_token']);
         unset($_SESSION['User']);
         return $this->generate_status(200);
     }
-    
+    /**
+     * method for login in
+     * @return type status OK/Unauthorized
+     */
     public function login(){
         $username = trim($this->input->post('Username'));
         $password = md5(trim($this->input->post('Password')));
@@ -110,7 +126,10 @@ class Api extends MY_Controller{
         }
         return $this->generate_status(401);
     }
-    
+    /**
+     * Check if user with posted username already exists in DB
+     * @return type OK/Bad request
+     */
     public function checkUsername(){
         $username = trim($this->input->post('Username'));
         $this->load->model("UserModel");
@@ -122,7 +141,10 @@ class Api extends MY_Controller{
             return $this->generate_status(200);
         }
     }
-    
+    /**
+     * Method for registration of new users
+     * @return type OK/Bad request
+     */
     public function register(){
         $Username = $this->input->post("Username");
         $Password = $this->input->post("Password");
@@ -137,7 +159,11 @@ class Api extends MY_Controller{
         }
         return $this->generate_status(400);
     }
-    
+    /**
+     * Method to generate some random string
+     * @param type $length - integer (should be up to 32)
+     * @return string
+     */
     protected function generateRandomString($length = 16) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -147,7 +173,9 @@ class Api extends MY_Controller{
         }
         return $randomString;
     }
-    
+    /**
+     * method to create new Event, only admins can use this method
+     */
     public function newEvent(){
         $this->authorize(true);
         $data = $this->input->post();
@@ -155,7 +183,11 @@ class Api extends MY_Controller{
         $this->EventsModel->newEvent($data);
         $this->generate_status(201);
     }
-    
+    /**
+     * Method to get all events for regular users
+     * @param type $past - can be anything, but just put past
+     * @return type JSON
+     */
     public function getAllEvents($past=''){
         $user = $this->authorize();
         $this->load->model("EventsModel");
@@ -163,7 +195,11 @@ class Api extends MY_Controller{
         return $this->generate_response($data);
     }
     
-    
+    /**
+     * Method to signup for some evet
+     * Require 'id' => event_id via POST
+     * @return type OK/Created
+     */
     public function signupEvent(){
         $user = $this->authorize();
         $id_event = $this->input->post('id');
@@ -171,7 +207,11 @@ class Api extends MY_Controller{
         $this->EventsModel->signup($user->IdUser,$id_event);
         return $this->generate_status(201);
     }
-    
+    /**
+     * Method to unsign from some event
+     * require 'id'=> event id via POST
+     * @return type OK
+     */
     public function unsignEvent(){
         $user = $this->authorize();
         $id_event = $this->input->post('id');
@@ -179,21 +219,33 @@ class Api extends MY_Controller{
         $this->EventsModel->unsign($user->IdUser,$id_event);
         return $this->generate_status(200);
     }
-    
+    /**
+     * Method for getting all events , but for admins.
+     * @param type $past - 'pasted events or not' just put past afther / exp Api/getAllEventsForAdmin/past/
+     * @return type JSON
+     */
     public function getAllEventsForAdmin($past=''){
         $this->authorize(true);
         $this->load->model("EventsModel");
         $data = $this->EventsModel->getAllEventsForAdmin($past);
         return $this->generate_response($data);
     }
-    
+    /**
+     * Method for admins so they can delete events
+     * @param type $IdEvent - int - Id of event
+     * @return type OK
+     */
     public function deleteEvent($IdEvent){
         $this->authorize(true);
         $this->load->model("EventsModel");
         $this->EventsModel->deleteEvent(intval($IdEvent));
         return $this->generate_status(200);
     }
-    
+    /**
+     * Method for getting all users signed for some event
+     * @param type $IdEvent - int - id event
+     * @return type JSON
+     */
     public function getAllSignedUsersForEvent($IdEvent){
         $this->authorize(true);
         $this->load->model("EventsModel");
@@ -201,6 +253,9 @@ class Api extends MY_Controller{
         return $this->generate_response($data);
     }
     
+    /**
+     * Get all users - for admins so they can do with them whatever they want
+     */
     
     public function getAllUsers(){
         $this->authorize(true);
@@ -208,7 +263,11 @@ class Api extends MY_Controller{
         $users = $this->UserModel->getAllUsers();
         $this->generate_response($users);
     }
-    
+    /**
+     * Deletes user from database by given id , admin privilege required
+     * @param type $IdUser - int
+     * @return type OK/Error/
+     */
     public function deleteUser($IdUser){
         $user = $this->authorize(true);
         if($user->IdUser==$IdUser){
@@ -219,7 +278,9 @@ class Api extends MY_Controller{
         $this->UserModel->deleteUser(intval($IdUser));
         return $this->generate_status(200);
     }
-    
+    /**
+     * Method for editing profile, data should be send via POST as a Array
+     */
     public function editProfile(){
         $user = $this->authorize();
         unset($_POST['access_token']);
@@ -235,7 +296,11 @@ class Api extends MY_Controller{
         $this->UserModel->editUser($user->IdUser,$data);
         $this->generate_status(200);
     }
-    
+    /**
+     * Method to edit events
+     * @param type $IdEvent - int - id event
+     * @return type OK
+     */
     public function editEvent($IdEvent){
         $this->authorize(true);
         unset($_POST['access_token']);
@@ -244,14 +309,20 @@ class Api extends MY_Controller{
         $this->EventsModel->editEvent(intval($IdEvent),$data);
         return $this->generate_status(200);
     }
-    
+    /**
+     * Method to get some event by given ID - restricted to admins
+     * @param type $IdEvent - int
+     * @return type JSON
+     */
     public function getEvent($IdEvent){
         $this->authorize(true);
         $this->load->model("EventsModel");
         $event = $this->EventsModel->getEventById(intval($IdEvent));
         return $this->generate_response($event);
     }
-    
+    /**
+     * NOT IN USE
+     */
     public function editUser(){
         $this->authorize(true);
         unset($_POST['access_token']);
